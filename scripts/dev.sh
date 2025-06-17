@@ -1,0 +1,1 @@
+deno --watch --allow-net main.ts
