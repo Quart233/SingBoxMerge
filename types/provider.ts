@@ -15,14 +15,14 @@ export class Provider implements Provider {
   }
 
   byFlags() {
-    return this.outbounds.reduce((hashMap: { [key: string]:Vmess[] | Shadowsocks[] }, o) => {
+    return this.outbounds.reduce((hashMap: { [key: string]: string[] }, o) => {
 
       const match = o.config.tag.match(/[\u{1F1E6}-\u{1F1FF}]{2}/u); // Match country flags.
       const flag = match ? match.toString() : "misc";
       const key = `${this.name} ${flag}`
 
       hashMap[key] = hashMap[key] || []; // Reference or initialize.
-      hashMap[key].push(o);
+      hashMap[key].push(o.config.tag);
 
       return hashMap;
     }, {})
