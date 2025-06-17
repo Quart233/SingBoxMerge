@@ -18,7 +18,7 @@ export class Base {
 
 	validate(config: BaseConfig) {
     if (!config.type || !config.tag) {
-      throw new Error('Invalid Shadowsocks configuration: missing required fields');
+      throw new Error('Invalid outbound configuration: missing required fields');
     }
   }
 }
