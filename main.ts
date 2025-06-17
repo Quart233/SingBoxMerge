@@ -8,7 +8,7 @@ const queue: Promise<Provider>[] = [
 const server = createServer(async (req, client) => {
   const providers = await Promise.all(queue);
 
-  const result = providers.map(p => p.groupByCountry())
+  const result = providers.map(p => p.byFlags())
 
   client.writeHead(200, { 'Content-Type': 'application/json' });
   client.end(JSON.stringify(result, null, 2));

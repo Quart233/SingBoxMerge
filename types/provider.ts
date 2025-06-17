@@ -14,7 +14,7 @@ export class Provider implements Provider {
     this.outbounds = [];
   }
 
-  groupByCountry() {
+  byFlags() {
     return this.outbounds.reduce((hashMap: { [key: string]:Vmess[] | Shadowsocks[] }, o) => {
 
       const match = o.config.tag.match(/[\u{1F1E6}-\u{1F1FF}]{2}/u); // Match country flags.
