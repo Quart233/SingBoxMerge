@@ -13,6 +13,20 @@ export class Provider implements Provider {
     this.url = url;
     this.outbounds = [];
   }
+
+  groupByCountry() {
+    return this.outbounds.reduce((hashMap: { [key: string]:Vmess[] | Shadowsocks[] }, o) => {
+
+      const match = o.config.tag.match(/[\u{1F1E6}-\u{1F1FF}]{2}/u); // Match country flags.
+      const flag = match ? match.toString() : "misc";
+      const key = `${this.name} ${flag}`
+
+      hashMap[key] = hashMap[key] || []; // Reference or initialize.
+      hashMap[key].push(o);
+
+      return hashMap;
+    }, {})
+  }
 }
 
 export class ProviderFactory {
@@ -28,7 +42,7 @@ export class ProviderFactory {
         case Protocol.Vmess:
           return new Vmess(o);
       }
-    })
+    }).filter(o => o != undefined)
 
     return instance;
   }
