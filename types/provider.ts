@@ -1,6 +1,6 @@
 import { Vmess } from "../outbounds/vmess.ts"
 import { Shadowsocks } from "../outbounds/shadowsocks.ts"
-import { OutboundArray, ProviderRes, Protocol, Base } from "../outbounds/base.ts"
+import { OutboundArray, ProviderRes, Protocol, Outbound } from "../outbounds/base.ts"
 
 export class Provider implements Provider {
   name: string;
@@ -25,7 +25,7 @@ export class Provider implements Provider {
 
       return hashMap;
     }, {})
-    return Object.keys(countries).map(flag => new Base({ tag: flag, type: Protocol.Selector, outbounds: countries[flag] }))
+    return Object.keys(countries).map(flag => new Outbound({ tag: flag, type: Protocol.Selector, outbounds: countries[flag] }))
   }
 }
 

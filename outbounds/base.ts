@@ -13,7 +13,7 @@ export interface BaseConfig {
   outbounds: OutboundArray;
 }
 
-export class Base {
+export class Outbound {
   config: BaseConfig;
 
   constructor(config: BaseConfig) {

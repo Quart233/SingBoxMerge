@@ -1,4 +1,4 @@
-import { Base, BaseConfig } from "./base.ts"
+import { Outbound, BaseConfig } from "./base.ts"
 
 export interface VmessConfig extends BaseConfig {
 	server: string;
@@ -6,7 +6,7 @@ export interface VmessConfig extends BaseConfig {
 	transport?: object;
 }
 
-export class Vmess extends Base {
+export class Vmess extends Outbound {
 	constructor(config: VmessConfig) {
 		config.transport = {}
 		super(config);
