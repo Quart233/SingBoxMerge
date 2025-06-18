@@ -1,8 +1,7 @@
-import { ProviderRes } from "./base.ts"
 import { Protocol, Base } from './outbound.ts'
 import { Vmess } from "../outbounds/vmess.ts"
 import { Shadowsocks } from "../outbounds/shadowsocks.ts"
-import { OutboundArray } from "../outbounds/index.ts"
+import { OutboundArray, ProviderRes } from "../outbounds/index.ts"
 
 export class Provider implements Provider {
   name: string;
