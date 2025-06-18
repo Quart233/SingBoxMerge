@@ -42,7 +42,7 @@
   ],
   "route": {
     "auto_detect_interface": true,
-    "final": "Proxy",
+    "final": "proxy",
     "rules": [
       { "domain_suffix": ["pagead2.googlesyndication.com"], "outbound": "block" },
       { "rule_set": ["geosite-spotify"], "outbound": "Spotify" },
