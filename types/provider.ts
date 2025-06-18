@@ -14,7 +14,7 @@ export class Provider implements Provider {
   }
 
   byFlags() {
-      const countries = this.outbounds.reduce((hashMap: { [key: string]:OutboundArray }, outbound) => {
+    const countries = this.outbounds.reduce((hashMap: { [key: string]:OutboundArray }, outbound) => {
 
       const match = outbound.config.tag.match(/[\u{1F1E6}-\u{1F1FF}]{2}/u); // Match country flags.
       const flag = match ? match.toString() : "misc";
@@ -24,7 +24,19 @@ export class Provider implements Provider {
 
       return hashMap;
     }, {})
-    return Object.keys(countries).map(flag => new Outbound({ tag: `${this.name} ${flag}`, type: Protocol.Selector, outbounds: countries[flag] }))
+
+    const instance = new Provider(this.name, this.url)
+    instance.outbounds = Object.keys(countries).map(flag => {
+      const o = new Outbound({ tag: `${this.name} ${flag}`, type: Protocol.Selector })
+      o.outbounds = countries[flag];
+      return o;
+    })
+
+    return instance;
+  }
+
+  toConfig() {
+    return this.outbounds.map(o => o.toConfig())
   }
 }
 
