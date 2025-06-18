@@ -18,14 +18,13 @@ export class Provider implements Provider {
 
       const match = outbound.config.tag.match(/[\u{1F1E6}-\u{1F1FF}]{2}/u); // Match country flags.
       const flag = match ? match.toString() : "misc";
-      const key = `${this.name} ${flag}`
 
-      hashMap[key] = hashMap[key] || []; // Reference or initialize.
-      hashMap[key].push(outbound);
+      hashMap[flag] = hashMap[flag] || []; // Reference or initialize.
+      hashMap[flag].push(outbound);
 
       return hashMap;
     }, {})
-    return Object.keys(countries).map(flag => new Outbound({ tag: flag, type: Protocol.Selector, outbounds: countries[flag] }))
+    return Object.keys(countries).map(flag => new Outbound({ tag: `${this.name} ${flag}`, type: Protocol.Selector, outbounds: countries[flag] }))
   }
 }
 
