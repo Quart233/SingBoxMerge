@@ -1,7 +1,8 @@
 import { ProviderRes } from "./base.ts"
-import { Protocol } from "./outbound.ts"
+import { Protocol, Base } from './outbound.ts'
 import { Vmess } from "../outbounds/vmess.ts"
 import { Shadowsocks } from "../outbounds/shadowsocks.ts"
+import { OutboundArray } from "../outbounds/index.ts"
 
 export class Provider implements Provider {
   name: string;
@@ -15,17 +16,18 @@ export class Provider implements Provider {
   }
 
   byFlags() {
-    return this.outbounds.reduce((hashMap: { [key: string]: string[] }, o) => {
+      const countries = this.outbounds.reduce((hashMap: { [key: string]:OutboundArray }, outbound) => {
 
-      const match = o.config.tag.match(/[\u{1F1E6}-\u{1F1FF}]{2}/u); // Match country flags.
+      const match = outbound.config.tag.match(/[\u{1F1E6}-\u{1F1FF}]{2}/u); // Match country flags.
       const flag = match ? match.toString() : "misc";
       const key = `${this.name} ${flag}`
 
       hashMap[key] = hashMap[key] || []; // Reference or initialize.
-      hashMap[key].push(o.config.tag);
+      hashMap[key].push(outbound);
 
       return hashMap;
     }, {})
+    return Object.keys(countries).map(flag => new Base({ tag: flag, type: Protocol.Selector, outbounds: countries[flag] }))
   }
 }
 
