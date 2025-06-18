@@ -18,6 +18,7 @@ export class Outbound {
 
   constructor(config: BaseConfig) {
     this.config = config
+    this.validate(config)
   }
 
   validate(config: BaseConfig) {
