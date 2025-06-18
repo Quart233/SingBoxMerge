@@ -1,4 +1,4 @@
-import { OutboundArray } from '../outbounds/index.ts'
+import { OutboundArray } from '../outbounds/base.ts'
 export enum Protocol {
 	Vmess = "vmess",
 	Selector = "selector",
