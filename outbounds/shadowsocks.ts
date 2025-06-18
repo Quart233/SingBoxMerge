@@ -1,4 +1,4 @@
-import { Base, BaseConfig } from "../types/outbound.ts"
+import { Base, BaseConfig } from "./base.ts"
 
 export interface ShadowsocksConfig extends BaseConfig {
 	server: string;
