@@ -5,7 +5,7 @@ import { OutboundArray, ProviderRes, Protocol, Outbound } from "../outbounds/bas
 export class Provider implements Provider {
   name: string;
   url: string;
-  outbounds: Array<Vmess | Shadowsocks>;
+  outbounds: OutboundArray;
 
   constructor(name: string, url: string) {
     this.name = name;
