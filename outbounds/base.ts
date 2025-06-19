@@ -16,9 +16,9 @@ export class Outbound {
   config: BaseConfig;
   outbounds: OutboundArray;
 
-  constructor(config: BaseConfig) {
+  constructor(config: BaseConfig, outbounds?: OutboundArray) {
     this.config = config
-    this.outbounds = []
+    this.outbounds = outbounds || []
     this.validate(config)
   }
 
