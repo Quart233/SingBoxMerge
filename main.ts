@@ -23,11 +23,13 @@ const server = createServer(async (req, client) => {
 
   const endpoints = providers.map(p => p.toConfig()).flat()
   const proxy = new Outbound({ tag: "proxy", type: Protocol.Selector }, countries)
+  const urltest = providers.map(p => new Outbound({ tag: p.name, type: Protocol.URLTest }, p.outbounds))
   const outbounds = [
     ...internal,
     proxy.toConfig(),
     ...rules.map(o => o.toConfig()),
     ...country.map(p => p.toConfig()).flat(),
+    ...urltest.map(p => p.toConfig()).flat(),
     ...endpoints
   ]
 

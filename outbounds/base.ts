@@ -4,6 +4,7 @@ import { Shadowsocks, ShadowsocksConfig } from './shadowsocks.ts'
 export enum Protocol {
   Vmess = "vmess",
   Selector = "selector",
+  URLTest = "urltest",
   Shadowsocks = "shadowsocks"
 }
 
