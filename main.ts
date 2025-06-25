@@ -1,6 +1,6 @@
 import { createServer } from "node:http"
 import { ProviderFactory, Provider }  from "./types/provider.ts"
-import template from "./templates/template.json" with { type: "json" }
+import template from "./templates/mobile.json" with { type: "json" }
 import { Protocol, Outbound } from "./outbounds/base.ts";
 
 const queue: Promise<Provider>[] = [
@@ -18,6 +18,7 @@ const server = createServer(async (req, client) => {
   const country = providers.map(p => p.byFlags())
   const countries = country.map(p => p.outbounds).flat()
   const rules = template.route.rules
+                     .filter(r => r.outbound)
                      .filter(r => !internal.map(o => o.tag).includes(r.outbound))
                      .map(r => new Outbound({ tag: r.outbound, type: Protocol.Selector }, countries))
 

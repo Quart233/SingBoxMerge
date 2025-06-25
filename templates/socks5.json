@@ -40,6 +40,7 @@
       "set_system_proxy": false
     }
   ],
+  "outbounds": [],
   "route": {
     "auto_detect_interface": true,
     "final": "proxy",
