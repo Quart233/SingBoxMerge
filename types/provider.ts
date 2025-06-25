@@ -1,6 +1,7 @@
 import { Vmess } from "../outbounds/vmess.ts"
 import { Shadowsocks } from "../outbounds/shadowsocks.ts"
 import { OutboundArray, ProviderRes, Protocol, Outbound } from "../outbounds/base.ts"
+import { Vless } from "../outbounds/vless.ts";
 
 export class Provider implements Provider {
   name: string;
@@ -52,6 +53,8 @@ export class ProviderFactory {
           return new Shadowsocks(o);
         case Protocol.Vmess:
           return new Vmess(o);
+        case Protocol.Vless:
+          return new Vless(o);
       }
     }).filter(o => o != undefined)
 
