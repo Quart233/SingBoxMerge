@@ -1,10 +1,11 @@
 import { createServer } from "node:http"
-import { ProviderFactory, Provider }  from "./types/provider.ts"
+import { ProviderFactory, Provider }  from "./providers/base.ts"
 import template from "./templates/mobile.json" with { type: "json" }
 import { Protocol, Outbound } from "./outbounds/base.ts";
 
 const queue: Promise<Provider>[] = [
-  ProviderFactory.create("Provider Name", "Subscription URL")
+  ProviderFactory.create("OVH", "http://127.0.0.1:8080/ovh.json"),
+  ProviderFactory.create("facmeta", "http://127.0.0.1:8080/facmeta_VN.json"),
 ]
 
 const internal = [
