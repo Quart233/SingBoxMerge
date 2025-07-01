@@ -1,5 +1,5 @@
 import { createServer } from "node:http"
-import { ProviderFactory, Provider }  from "./providers/base.ts"
+import { ProviderFactory, Provider }  from "./profiles"
 import template from "./templates/mobile.json" with { type: "json" }
 import { Protocol, Outbound } from "./outbounds/base.ts";
 
