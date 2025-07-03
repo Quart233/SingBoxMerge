@@ -1,5 +1,11 @@
 import { Base, Fields } from "./base.ts"
-import { Protocol, Outbounds, ProviderRes } from "../outbounds"
+import {
+	 Protocol,
+	 ProviderRes,
+	 Shadowsocks,
+	 Vmess,
+	 Vless
+} from "../outbounds"
 
 export class SingBox extends Base {
 	static async create(f: Fields) {
@@ -10,11 +16,11 @@ export class SingBox extends Base {
 	  instance.outbounds = json.outbounds.map(o => {
 	    switch (o.type) {
 	      case Protocol.Shadowsocks:
-	        return new Outbounds.Shadowsocks(o);
+	        return new Shadowsocks(o);
 	      case Protocol.Vmess:
-	        return new Outbounds.Vmess(o);
+	        return new Vmess(o);
 	      case Protocol.Vless:
-	        return new Outbounds.Vless(o);
+	        return new Vless(o);
 	    }
 	  }).filter(o => o != undefined)
 

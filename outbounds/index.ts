@@ -16,4 +16,4 @@ export interface ProviderRes {
 
 export type OutboundArray = Array<Vmess | Shadowsocks>;
 
-export const Outbounds = { Shadowsocks, Vmess, Vless }
+export { Shadowsocks, Vmess, Vless }
