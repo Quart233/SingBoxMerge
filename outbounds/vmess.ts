@@ -13,10 +13,15 @@ export class Vmess extends Outbound {
 		this.validate(config)
 	}
 
+	decode(uri: string) {
+		// Todo: vmess outbound uri decode.
+		const instance = new Vmess()	
+		return instance;
+	}
+
 	override validate(config: VmessConfig) {
     if (!config.server || !config.server_port) {
       throw new Error('Invalid vmess configuration: missing required fields');
     }
   }
-
 }
