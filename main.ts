@@ -1,5 +1,5 @@
 import { createServer } from "node:http"
-import { SingBox } from "./profiles"
+import { SingBox } from "./providers"
 import { Protocol } from "./outbounds";
 import { Outbound } from "./outbounds/base.ts";
 
