@@ -1,13 +1,5 @@
-import { Vmess, VmessConfig } from './vmess.ts'
-import { Shadowsocks, ShadowsocksConfig } from './shadowsocks.ts'
+import { Protocol, OutboundArray } from './index.ts'
 
-export enum Protocol {
-  Vmess = "vmess",
-  Vless = "vless",
-  Selector = "selector",
-  URLTest = "urltest",
-  Shadowsocks = "shadowsocks"
-}
 
 export interface BaseConfig {
   type: Protocol;
@@ -42,8 +34,3 @@ export class Outbound {
   }
 }
 
-export type OutboundArray = Array<Vmess | Shadowsocks>;
-
-export interface ProviderRes {
-  outbounds: Array<VmessConfig | ShadowsocksConfig>;
-}

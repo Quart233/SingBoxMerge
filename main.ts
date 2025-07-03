@@ -1,11 +1,15 @@
 import { createServer } from "node:http"
-import { ProviderFactory, Provider }  from "./profiles"
-import template from "./templates/mobile.json" with { type: "json" }
-import { Protocol, Outbound } from "./outbounds/base.ts";
+import { SingBox } from "./profiles"
+import { Protocol } from "./outbounds";
+import { Outbound } from "./outbounds/base.ts";
 
-const queue: Promise<Provider>[] = [
-  ProviderFactory.create("OVH", "http://127.0.0.1:8080/ovh.json"),
-  ProviderFactory.create("facmeta", "http://127.0.0.1:8080/facmeta_VN.json"),
+import template from "./templates/mobile.json" with { type: "json" }
+
+const providers: Promise<SingBox>[] = [
+  SingBox.create({
+    name: "Provider Name"
+    url: "Subscription URL"
+  }),
 ]
 
 const internal = [
@@ -14,18 +18,18 @@ const internal = [
 ]
 
 const server = createServer(async (req, client) => {
-  const providers = await Promise.all(queue);
+  const profiles = await Promise.all(providers);
 
-  const country = providers.map(p => p.byFlags())
+  const country = profiles.map(p => p.byFlags())
   const countries = country.map(p => p.outbounds).flat()
   const rules = template.route.rules
                      .filter(r => r.outbound)
                      .filter(r => !internal.map(o => o.tag).includes(r.outbound))
                      .map(r => new Outbound({ tag: r.outbound, type: Protocol.Selector }, countries))
 
-  const endpoints = providers.map(p => p.toConfig()).flat()
+  const endpoints = profiles.map(p => p.toConfig()).flat()
   const proxy = new Outbound({ tag: "proxy", type: Protocol.Selector }, countries)
-  const urltest = providers.map(p => new Outbound({ tag: p.name, type: Protocol.URLTest }, p.outbounds))
+  const urltest = profiles.map(p => new Outbound({ tag: p.name, type: Protocol.URLTest }, p.outbounds))
   const outbounds = [
     ...internal,
     proxy.toConfig(),
