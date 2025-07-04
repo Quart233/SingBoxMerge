@@ -45,6 +45,7 @@
     "auto_detect_interface": true,
     "final": "proxy",
     "rules": [
+      { "ip_cidr": ["127.0.0.1"], "outbound": "direct" },
       { "domain_suffix": ["pagead2.googlesyndication.com"], "outbound": "block" },
       { "rule_set": ["geosite-spotify"], "outbound": "Spotify" },
       { "rule_set": [ "geosite-youtube" ], "outbound": "Youtube" },
