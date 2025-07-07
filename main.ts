@@ -1,45 +1,33 @@
-import { createServer } from "node:http"
-import { SingBox } from "./providers"
-import { Protocol } from "./outbounds";
-import { Outbound } from "./outbounds/base.ts";
-
-import template from "./templates/mobile.json" with { type: "json" }
-
-const providers: Promise<SingBox>[] = [
-  SingBox.create({
-    name: "Provider Name"
-    url: "Subscription URL"
-  }),
-]
+import { createServer } from "node:http";
+import { SingBox, V2 } from "./providers";
+import { Profile } from "./profiles/profile.ts";
+import template from "./templates/socks5.json" with { type: "json" };
 
 const internal = [
-  { "type": "direct", "tag": "direct" },
-  { "type": "block", "tag": "block" }
-]
+  { type: "direct", tag: "direct" },
+  { type: "block", tag: "block" },
+];
 
 const server = createServer(async (req, client) => {
+  const providers: Promise<V2 | SingBox>[] = [
+    V2.create({
+      name: "Provider Name",
+      url: "Subscription URL",
+    }),
+  ];
+
   const profiles = await Promise.all(providers);
+  const countries = profiles.map(p => p.byFlags()).map(p => p.outbounds).flat();
 
-  const country = profiles.map(p => p.byFlags())
-  const countries = country.map(p => p.outbounds).flat()
-  const rules = template.route.rules
-                     .filter(r => r.outbound)
-                     .filter(r => !internal.map(o => o.tag).includes(r.outbound))
-                     .map(r => new Outbound({ tag: r.outbound, type: Protocol.Selector }, countries))
+  const profile = new Profile({
+    rules: template.route.rules,
+    internalOutbounds: internal,
+    profiles,
+  });
 
-  const endpoints = profiles.map(p => p.toConfig()).flat()
-  const proxy = new Outbound({ tag: "proxy", type: Protocol.Selector }, countries)
-  const urltest = profiles.map(p => new Outbound({ tag: p.name, type: Protocol.URLTest }, p.outbounds))
-  const outbounds = [
-    ...internal,
-    proxy.toConfig(),
-    ...rules.map(o => o.toConfig()),
-    ...country.map(p => p.toConfig()).flat(),
-    ...urltest.map(p => p.toConfig()).flat(),
-    ...endpoints
-  ]
+  const outbounds = profile.generateOutbounds(countries);
 
-  client.writeHead(200, { 'Content-Type': 'application/json' });
+  client.writeHead(200, { "Content-Type": "application/json" });
   client.end(JSON.stringify(Object.assign(template, { outbounds }), null, 2));
 });
 
