@@ -4,7 +4,6 @@ import { Outbound } from "../outbounds/base.ts"
 export interface Fields {
   name: string;
   url: string;
-  template: string;
 }
 
 export class Provider implements Fields {

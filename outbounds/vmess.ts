@@ -29,7 +29,6 @@ export class Vmess extends Outbound {
 	}
 
 	static decode(uri: string) {
-		// Todo: vmess outbound uri decode.
 		const base64 = uri.substring(8);
 	  const decoded = Buffer.from(base64, "base64").toString("utf8");
 	  const config: VmessConfig = JSON.parse(decoded);
