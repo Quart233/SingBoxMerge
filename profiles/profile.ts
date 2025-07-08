@@ -44,7 +44,9 @@ class Profile {
 
   // 生成规则对应的 Outbound 对象
   public generateRuleOutbounds(countries: OutboundArray): Outbound[] {
-    return this.rules.map(rule => new Outbound({ tag: rule.outbound, type: Protocol.Selector }, countries));
+    return this.rules
+               .filter(r => !this.internalOutbounds.map(o => o.tag).includes(r.outbound))
+               .map(rule => new Outbound({ tag: rule.outbound, type: Protocol.Selector }, countries));
   }
 
   // 生成代理选择器 Outbound 对象
@@ -76,7 +78,7 @@ class Profile {
     const endpoints = this.generateEndpoints();
 
     this.cachedOutbounds = [
-      ...this.internalOutbounds.map(o => ({ type: o.type, tag: o.tag })),
+      ...this.internalOutbounds,
       proxy.toConfig(),
       ...rules.map(o => o.toConfig()),
       ...countries.map(p => p.toConfig()).flat(),
