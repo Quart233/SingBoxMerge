@@ -1,6 +1,7 @@
 import { Buffer } from 'node:buffer';
 import { Provider, Fields } from "./base.ts"
-import { Vmess } from "../outbounds"
+import { Protocol, Shadowsocks, Vmess } from "../outbounds"
+import { Outbound } from "../outbounds/base.ts";
 
 export class Base64 extends Provider {
 	static async create(f: Fields) {
@@ -12,7 +13,18 @@ export class Base64 extends Provider {
 
 	  console.log(list)
 
-	  instance.outbounds = list.map(uri => Vmess.decode(uri))
+	  instance.outbounds = list.map(uri => {
+	  	const protocol = uri.split("://")[0]
+
+	  	switch(protocol) {
+		  	case Protocol.Vmess:
+		  		return Vmess.decode(uri)
+		  	case 'ss':
+		  		return Shadowsocks.decode(uri)
+		  	default:
+		  		return new Outbound({ tag: "Empty", type: Protocol.Selector })
+	  	}
+	  })
 
 	  return instance;
 	}
