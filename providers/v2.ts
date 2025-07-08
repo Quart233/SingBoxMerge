@@ -1,8 +1,8 @@
 import { Buffer } from 'node:buffer';
-import { Base, Fields } from "./base.ts"
+import { Provider, Fields } from "./base.ts"
 import { Vmess } from "../outbounds"
 
-export class V2 extends Base {
+export class V2 extends Provider {
 	static async create(f: Fields) {
 	  const instance = new V2(f.name, f.url);
 	  const res = await fetch(f.url);

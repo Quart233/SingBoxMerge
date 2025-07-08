@@ -7,7 +7,7 @@ export interface Fields {
   template: string;
 }
 
-export class Base implements Fields {
+export class Provider implements Fields {
   name: string;
   url: string;
   outbounds: OutboundArray;
@@ -30,7 +30,7 @@ export class Base implements Fields {
       return hashMap;
     }, {})
 
-    const instance = new Base(this.name, this.url)
+    const instance = new Provider(this.name, this.url)
     instance.outbounds = Object.keys(countries).map(flag => {
       const o = new Outbound({ tag: `${this.name} ${flag}`, type: Protocol.Selector })
       o.outbounds = countries[flag];

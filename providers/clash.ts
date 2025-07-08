@@ -1,3 +1,3 @@
-import { Base } from "./base.ts"
+import { Provider } from "./base.ts"
 
-export class Clash extends Base {}
+export class Clash extends Provider {}

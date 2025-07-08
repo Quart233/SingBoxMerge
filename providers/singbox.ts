@@ -1,4 +1,4 @@
-import { Base, Fields } from "./base.ts"
+import { Provider, Fields } from "./base.ts"
 import {
 	 Protocol,
 	 ProviderRes,
@@ -7,7 +7,7 @@ import {
 	 Vless
 } from "../outbounds"
 
-export class SingBox extends Base {
+export class SingBox extends Provider {
 	static async create(f: Fields) {
 	  const instance = new SingBox(f.name, f.url);
 	  const res = await fetch(f.url);
