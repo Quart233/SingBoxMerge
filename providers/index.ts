@@ -1,5 +1,5 @@
 import { SingBox } from "./singbox.ts"
 import { Clash } from "./clash.ts"
-import { V2 } from "./v2.ts"
+import { Base64 } from "./base64.ts"
 
-export { SingBox, Clash, V2 }
+export { SingBox, Clash, Base64 }

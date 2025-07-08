@@ -1,7 +1,15 @@
-import { createServer } from "node:http";
-import { SingBox, V2 } from "./providers";
-import { Profile } from "./profiles/profile.ts";
-import template from "./templates/socks5.json" with { type: "json" };
+import { createServer } from "node:http"
+import { Base64 } from "./providers"
+import { Profile } from "./profiles/profile.ts"
+
+import template from "./templates/socks5.json" with { type: "json" }
+
+const providers: Promise<Base64>[] = [
+  Base64.create({
+    name: "Provider Name",
+    url: "Subscription URL"
+  }),
+]
 
 const internal = [
   { type: "direct", tag: "direct" },
@@ -9,12 +17,6 @@ const internal = [
 ];
 
 const server = createServer(async (req, client) => {
-  const providers: Promise<V2 | SingBox>[] = [
-    V2.create({
-      name: "Provider Name",
-      url: "Subscription URL",
-    }),
-  ];
 
   const profiles = await Promise.all(providers);
   const countries = profiles.map(p => p.byFlags()).map(p => p.outbounds).flat();
