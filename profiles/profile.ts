@@ -45,6 +45,7 @@ class Profile {
   // 生成规则对应的 Outbound 对象
   public generateRuleOutbounds(countries: OutboundArray): Outbound[] {
     return this.rules
+               .filter(r => r.outbound)
                .filter(r => !this.internalOutbounds.map(o => o.tag).includes(r.outbound))
                .map(rule => new Outbound({ tag: rule.outbound, type: Protocol.Selector }, countries));
   }
