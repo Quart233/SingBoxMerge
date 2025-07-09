@@ -7,9 +7,9 @@ import {
 	Vless
 } from "../outbounds"
 
-export class SingBox extends Provider {
+export class JSONProvider extends Provider {
 	static async create(f: Fields) {
-	  const instance = new SingBox(f.name, f.url);
+	  const instance = new JSONProvider(f.name, f.url);
 	  const res = await fetch(f.url);
 	  const json: ProviderRes = await res.json();
 
