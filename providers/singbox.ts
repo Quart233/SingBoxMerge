@@ -1,10 +1,10 @@
 import { Provider, Fields } from "./base.ts"
 import {
-		URI,
-		ProviderRes,
-		Shadowsocks,
-		Vmess,
-		Vless
+	URI,
+	ProviderRes,
+	Shadowsocks,
+	Vmess,
+	Vless
 } from "../outbounds"
 
 export class SingBox extends Provider {
