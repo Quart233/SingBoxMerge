@@ -10,6 +10,12 @@ export enum Protocol {
   Shadowsocks = "shadowsocks"
 }
 
+export enum URI {
+  Vmess = "vmess",
+  Vless = "vless",
+  Shadowsocks = "ss"
+}
+
 export interface ProviderRes {
   outbounds: Array<VmessConfig | ShadowsocksConfig | VlessConfig>;
 }

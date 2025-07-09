@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer';
 import { Provider, Fields } from "./base.ts"
-import { Protocol, Shadowsocks, Vmess } from "../outbounds"
+import { URI, Protocol, Shadowsocks, Vmess } from "../outbounds"
 import { Outbound } from "../outbounds/base.ts";
 
 export class Base64 extends Provider {
@@ -17,9 +17,9 @@ export class Base64 extends Provider {
 	  	const protocol = uri.split("://")[0]
 
 	  	switch(protocol) {
-		  	case Protocol.Vmess:
+		  	case URI.Vmess:
 		  		return Vmess.decode(uri)
-		  	case 'ss':
+		  	case URI.Shadowsocks:
 		  		return Shadowsocks.decode(uri)
 		  	default:
 		  		return new Outbound({ tag: "Empty", type: Protocol.Selector })

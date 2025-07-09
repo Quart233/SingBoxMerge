@@ -1,10 +1,10 @@
 import { Provider, Fields } from "./base.ts"
 import {
-	 Protocol,
-	 ProviderRes,
-	 Shadowsocks,
-	 Vmess,
-	 Vless
+		URI,
+		ProviderRes,
+		Shadowsocks,
+		Vmess,
+		Vless
 } from "../outbounds"
 
 export class SingBox extends Provider {
@@ -15,11 +15,11 @@ export class SingBox extends Provider {
 
 	  instance.outbounds = json.outbounds.map(o => {
 	    switch (o.type) {
-	      case Protocol.Shadowsocks:
+	      case URI.Shadowsocks:
 	        return new Shadowsocks(o);
-	      case Protocol.Vmess:
+	      case URI.Vmess:
 	        return new Vmess(o);
-	      case Protocol.Vless:
+	      case URI.Vless:
 	        return new Vless(o);
 	    }
 	  }).filter(o => o != undefined)
