@@ -1,5 +1,4 @@
 import { JSONProvider } from "./json.ts"
-import { Clash } from "./clash.ts"
 import { Base64 } from "./base64.ts"
 
-export { JSONProvider, Clash, Base64 }
+export { JSONProvider, Base64 }
