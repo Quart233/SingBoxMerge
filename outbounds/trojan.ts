@@ -1,5 +1,6 @@
 import { Protocol, TLSConfig } from "./index.ts"
 import { Outbound, BaseConfig } from "./base.ts"
+import { log } from "node:console";
 
 export interface TrojanTLS {
   allowInsecure: boolean;
@@ -24,11 +25,23 @@ export class Trojan extends Outbound {
 	static decode(uri: string) {
     const url = new URL(uri);
 
-    const params: Partial<TrojanTLS> = url.search.slice(1).split("&").reduce((hashMap: { [key: string]:string }, str) => {
+
+    const params = url.search.slice(1).split("&").reduce((hashMap: Partial<TrojanTLS>, str) => {
       const kv = str.split('=')
-     hashMap[kv[0]] = kv[1]
-      return hashMap
+      const k = kv[0]
+      const v = kv[1]
+
+      const transform = {
+        udp: (v: string) => v === "1",
+        allowInsecure: (v: string) => v === "1",
+        peer: (v: string) => v,
+        sni: (v: string) => v
+      }
+
+      return Object.assign(hashMap, { [k]: transform[k](v) })
     }, {})
+
+    log(params)
 
 		const instance = new Trojan({
 			type: Protocol.Trojan,
