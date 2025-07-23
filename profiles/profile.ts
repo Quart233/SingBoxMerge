@@ -104,7 +104,7 @@ class Profile {
 
   // 生成配置文件
   generateConfig() {
-    const countries = this.providers.map(p => p.byFlags()).map(p => p.outbounds).flat();
+    const countries = this.providers.map(p => p.groups()).flat()
     const outbounds = this.generateOutbounds(countries);
     return Object.assign(this.template, { outbounds });
   }

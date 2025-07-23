@@ -11,7 +11,7 @@ export class Base64 extends Provider {
 	  const decoded = Buffer.from(text, "base64").toString("utf8");
 	  const list = decoded.split('\n').filter(uri => uri).map(uri => uri.trim())
 
-	  console.log(list)
+	  instance.prefix = f.prefix
 
 	  instance.outbounds = list.map(uri => {
 	  	const protocol = uri.split("://")[0]
