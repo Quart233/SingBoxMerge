@@ -1,14 +1,12 @@
 import { createServer } from "node:http"
-import { Base64 } from "./providers"
+import { Base64, JSONProvider } from "./providers"
 import { Profile } from "./profiles/profile.ts"
 
-import template from "./templates/socks5.json" with { type: "json" }
-
-const providers: Promise<Base64>[] = [
+const providers: Promise<Base64 | JSONProvider>[] = [
   Base64.create({
     name: "Provider Name",
     url: "Subscription URL"
-  }),
+  })
 ]
 
 const internal = [
@@ -19,18 +17,15 @@ const internal = [
 const server = createServer(async (req, client) => {
 
   const profiles = await Promise.all(providers);
-  const countries = profiles.map(p => p.byFlags()).map(p => p.outbounds).flat();
 
-  const profile = new Profile({
-    rules: template.route.rules,
+  const profile = await Profile.create({
+    template: "Template URL",
     internalOutbounds: internal,
     profiles,
   });
 
-  const outbounds = profile.generateOutbounds(countries);
-
   client.writeHead(200, { "Content-Type": "application/json" });
-  client.end(JSON.stringify(Object.assign(template, { outbounds }), null, 2));
+  client.end(JSON.stringify(profile.generateConfig(), null, 2));
 });
 
 const PORT = 3000;

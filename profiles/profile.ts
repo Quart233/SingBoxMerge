@@ -9,7 +9,7 @@ interface Rule {
 }
 
 interface ProfileConfig {
-  rules: Rule[];
+  template: string;
   internalOutbounds: { type: string; tag: string }[];
   profiles: Array<V2 | SingBox>;
 }
@@ -21,16 +21,27 @@ interface OutboundConfig {
 }
 
 class Profile {
+  private template;
   private rules: Rule[];
   private internalOutbounds: ProfileConfig["internalOutbounds"]
   private profiles: Array<V2 | SingBox>;
   private cachedOutbounds: OutboundConfig[] | null = null;
 
   constructor(config: ProfileConfig) {
-    this.rules = config.rules;
+    this.rules = [];
     this.internalOutbounds = config.internalOutbounds
     this.profiles = config.profiles;
     this.validateRules();
+  }
+
+  static async create(config: ProfileConfig) {
+    const res = await fetch(config.template);
+    const template = await res.json();
+    const instance = new Profile(config)
+    instance.rules = template.route.rules;
+    instance.template = template;
+
+    return instance;
   }
 
   // 验证规则有效性
@@ -88,6 +99,13 @@ class Profile {
     ];
 
     return this.cachedOutbounds;
+  }
+
+  // 生成配置文件
+  generateConfig() {
+    const countries = this.profiles.map(p => p.byFlags()).map(p => p.outbounds).flat();
+    const outbounds = this.generateOutbounds(countries);
+    return Object.assign(this.template, { outbounds });
   }
 
   // 重置缓存
