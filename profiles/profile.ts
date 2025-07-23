@@ -10,7 +10,7 @@ interface Rule {
 interface ProfileConfig {
   template: string;
   internalOutbounds: { type: string; tag: string }[];
-  profiles: IProvider[];
+  providers: Promise<IProvider>[];
 }
 
 interface OutboundConfig {
@@ -28,8 +28,8 @@ class Profile {
 
   constructor(config: ProfileConfig) {
     this.rules = [];
+    this.providers = [];
     this.internalOutbounds = config.internalOutbounds
-    this.providers = config.profiles;
     this.validateRules();
   }
 
@@ -37,6 +37,8 @@ class Profile {
     const res = await fetch(config.template);
     const template = await res.json();
     const instance = new Profile(config)
+
+    instance.providers = await Promise.all(config.providers);
     instance.rules = template.route.rules;
     instance.template = template;
 

@@ -1,13 +1,12 @@
 import { createServer } from "node:http"
 import { Base64 } from "./providers"
 import { Profile } from "./profiles/profile.ts"
-import { IProvider } from "./providers/base.ts";
 
-const providers: Promise<IProvider>[] = [
+const providers = [
   Base64.create({
     name: "Provider Name",
     url: "Subscription URL"
-  })
+  }),
 ]
 
 const internal = [
@@ -17,12 +16,10 @@ const internal = [
 
 const server = createServer(async (req, client) => {
 
-  const profiles = await Promise.all(providers);
-
   const profile = await Profile.create({
     template: "Template URL",
     internalOutbounds: internal,
-    profiles,
+    providers
   });
 
   client.writeHead(200, { "Content-Type": "application/json" });
