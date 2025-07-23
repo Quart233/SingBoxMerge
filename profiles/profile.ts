@@ -1,7 +1,6 @@
-import { Outbound } from "../outbounds/base.ts";
+import { Outbound, IOutbound } from "../outbounds/base.ts";
 import { Protocol } from "../outbounds";
-import { OutboundArray } from "../providers";
-import { V2, SingBox } from "../providers";
+import { IProvider } from "../providers/base.ts";
 
 interface Rule {
   outbound: string;
@@ -11,7 +10,7 @@ interface Rule {
 interface ProfileConfig {
   template: string;
   internalOutbounds: { type: string; tag: string }[];
-  profiles: Array<V2 | SingBox>;
+  profiles: IProvider[];
 }
 
 interface OutboundConfig {
@@ -24,7 +23,7 @@ class Profile {
   private template;
   private rules: Rule[];
   private internalOutbounds: ProfileConfig["internalOutbounds"]
-  private profiles: Array<V2 | SingBox>;
+  private profiles: IProvider[];
   private cachedOutbounds: OutboundConfig[] | null = null;
 
   constructor(config: ProfileConfig) {
@@ -54,7 +53,7 @@ class Profile {
   }
 
   // 生成规则对应的 Outbound 对象
-  public generateRuleOutbounds(countries: OutboundArray): Outbound[] {
+  public generateRuleOutbounds(countries: IOutbound[]): Outbound[] {
     return this.rules
                .filter(r => r.outbound)
                .filter(r => !this.internalOutbounds.map(o => o.tag).includes(r.outbound))
@@ -62,7 +61,7 @@ class Profile {
   }
 
   // 生成代理选择器 Outbound 对象
-  public generateProxyOutbound(countries: OutboundArray): Outbound {
+  public generateProxyOutbound(countries: IOutbound[]): Outbound {
     return new Outbound({ tag: "proxy", type: Protocol.Selector }, countries);
   }
 
@@ -79,7 +78,7 @@ class Profile {
   }
 
   // 生成所有出站配置
-  public generateOutbounds(countries: OutboundArray): OutboundConfig[] {
+  public generateOutbounds(countries: IOutbound[]): OutboundConfig[] {
     if (this.cachedOutbounds) {
       return this.cachedOutbounds;
     }
