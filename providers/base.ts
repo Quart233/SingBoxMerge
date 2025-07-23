@@ -1,12 +1,16 @@
 import { Protocol } from "../outbounds"
-import { IOutbound, Outbound } from "../outbounds/base.ts"
+import { BaseConfig, IOutbound, Outbound } from "../outbounds/base.ts"
 
 export interface Fields {
   name: string;
   url: string;
 }
 
-export class Provider implements Fields {
+export interface IProvider extends Fields {
+  toConfig: () => BaseConfig[];
+}
+
+export class Provider implements IProvider {
   name: string;
   url: string;
   outbounds: IOutbound[];

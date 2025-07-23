@@ -1,8 +1,9 @@
 import { createServer } from "node:http"
-import { Base64, JSONProvider } from "./providers"
+import { Base64 } from "./providers"
 import { Profile } from "./profiles/profile.ts"
+import { IProvider } from "./providers/base.ts";
 
-const providers: Promise<Base64 | JSONProvider>[] = [
+const providers: Promise<IProvider>[] = [
   Base64.create({
     name: "Provider Name",
     url: "Subscription URL"
