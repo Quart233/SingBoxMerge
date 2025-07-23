@@ -2,6 +2,8 @@ import { createServer } from "node:http"
 import { Base64, JSONProvider } from "./providers"
 import { Profile } from "./profiles/profile.ts"
 
+import { getNames } from "npm:country-list@2.3.0"
+
 const providers: Promise<Base64>[] = [
   Base64.create({
     name: "Provider Name",
@@ -16,7 +18,7 @@ const providers: Promise<Base64>[] = [
     url: "Subscription URL",
     prefix: (t: string) => {
       const keyword = t.split('|')[0].trim();
-      const match = ['Hong Kong'].includes(keyword) // Keywords
+      const match = getNames().includes(keyword) // Keywords
       return match? keyword: 'misc'
     }
   })
@@ -30,7 +32,7 @@ const internal = [
 const server = createServer(async (req, client) => {
 
   const profile = await Profile.create({
-    template: "Temlate URL",
+    template: "Template URL",
     internalOutbounds: internal,
     providers
   });
