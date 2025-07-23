@@ -1,5 +1,5 @@
-import { OutboundArray, Protocol } from "../outbounds"
-import { Outbound } from "../outbounds/base.ts"
+import { Protocol } from "../outbounds"
+import { IOutbound, Outbound } from "../outbounds/base.ts"
 
 export interface Fields {
   name: string;
@@ -9,7 +9,7 @@ export interface Fields {
 export class Provider implements Fields {
   name: string;
   url: string;
-  outbounds: OutboundArray;
+  outbounds: IOutbound[];
 
   constructor(name: string, url: string) {
     this.name = name;
@@ -18,7 +18,7 @@ export class Provider implements Fields {
   }
 
   byFlags() {
-    const countries = this.outbounds.reduce((hashMap: { [key: string]:OutboundArray }, outbound) => {
+    const countries = this.outbounds.reduce((hashMap: { [key: string]:IOutbound[] }, outbound) => {
 
       const match = outbound.config.tag.match(/[\u{1F1E6}-\u{1F1FF}]{2}/u); // Match country flags.
       const flag = match ? match.toString() : "misc";

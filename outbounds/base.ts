@@ -1,16 +1,20 @@
-import { Protocol, OutboundArray } from './index.ts'
-
+import { Protocol } from './index.ts'
 
 export interface BaseConfig {
   type: Protocol;
   tag: string;
 }
 
-export class Outbound {
+export interface IOutbound {
+  toConfig: () => BaseConfig | BaseConfig & { outbounds: string[] };
   config: BaseConfig;
-  outbounds: OutboundArray;
+}
 
-  constructor(config: BaseConfig, outbounds?: OutboundArray) {
+export class Outbound implements IOutbound {
+  config: BaseConfig;
+  outbounds: IOutbound[];
+
+  constructor(config: BaseConfig, outbounds?: IOutbound[]) {
     this.config = config
     this.outbounds = outbounds || []
     this.validate(config)

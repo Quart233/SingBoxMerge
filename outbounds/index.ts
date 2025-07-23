@@ -55,6 +55,4 @@ export interface ProviderRes {
   outbounds: Array<VmessConfig | ShadowsocksConfig | VlessConfig>;
 }
 
-export type OutboundArray = Array<Vmess | Shadowsocks>;
-
 export { Shadowsocks, Vmess, Vless, Trojan }
