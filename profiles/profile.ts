@@ -23,13 +23,13 @@ class Profile {
   private template;
   private rules: Rule[];
   private internalOutbounds: ProfileConfig["internalOutbounds"]
-  private profiles: IProvider[];
+  private providers: IProvider[];
   private cachedOutbounds: OutboundConfig[] | null = null;
 
   constructor(config: ProfileConfig) {
     this.rules = [];
     this.internalOutbounds = config.internalOutbounds
-    this.profiles = config.profiles;
+    this.providers = config.profiles;
     this.validateRules();
   }
 
@@ -67,14 +67,14 @@ class Profile {
 
   // 生成延迟测试 Outbound 对象
   public generateUrlTestOutbounds(): Outbound[] {
-    return this.profiles.map(profile => 
+    return this.providers.map(profile =>
       new Outbound({ tag: profile.name, type: Protocol.URLTest }, profile.outbounds)
     );
   }
 
   // 生成节点端点配置
   public generateEndpoints(): OutboundConfig[] {
-    return this.profiles.map(p => p.toConfig()).flat();
+    return this.providers.map(p => p.toConfig()).flat();
   }
 
   // 生成所有出站配置
@@ -102,7 +102,7 @@ class Profile {
 
   // 生成配置文件
   generateConfig() {
-    const countries = this.profiles.map(p => p.byFlags()).map(p => p.outbounds).flat();
+    const countries = this.providers.map(p => p.byFlags()).map(p => p.outbounds).flat();
     const outbounds = this.generateOutbounds(countries);
     return Object.assign(this.template, { outbounds });
   }
