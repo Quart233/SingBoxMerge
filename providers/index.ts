@@ -1,4 +1,9 @@
-import { JSONProvider } from "./json.ts"
-import { Base64 } from "./base64.ts"
+import { RegExp } from './regex.ts'
+import { Region } from './region.ts'
 
-export { JSONProvider, Base64 }
+export interface Fields {
+  name: string;
+  url: string;
+}
+
+export const Provider = { RegExp, Region }

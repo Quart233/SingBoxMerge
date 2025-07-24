@@ -1,26 +1,16 @@
 import { createServer } from "node:http"
-import { Base64, JSONProvider } from "./providers"
+import { Provider } from "./providers"
 import { Profile } from "./profiles/profile.ts"
+import { IProvider } from "./providers/base.ts";
 
-import { getNames } from "npm:country-list@2.3.0"
-
-const providers: Promise<Base64>[] = [
-  Base64.create({
+const providers: Promise<IProvider>[] = [
+  Provider.RegExp.base64({
     name: "Provider Name",
     url: "Subscription URL",
-    prefix: (t: string) => {
-      const match = t.match(/[\u{1F1E6}-\u{1F1FF}]{2}/u) // Emoji flags
-      return match? match.toString(): 'misc'
-    }
   }),
-  Base64.create({
+  Provider.Region.base64({
     name: "Provider Name",
     url: "Subscription URL",
-    prefix: (t: string) => {
-      const keyword = t.split('|')[0].trim();
-      const match = getNames().includes(keyword) // Keywords
-      return match? keyword: 'misc'
-    }
   })
 ]
 
