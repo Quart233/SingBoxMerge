@@ -1,7 +1,7 @@
 import * as Shadowsocks from "./shadowsocks.ts"
 import * as Vmess from "./vmess.ts"
 import * as Vless from "./vless.ts"
-import { Trojan } from "./trojan.ts"
+import * as Trojan from "./trojan.ts"
 
 export enum Protocol {
   Vmess = "vmess",
@@ -52,7 +52,7 @@ export interface TLSConfig {
 }
 
 export interface ProviderRes {
-  outbounds: Array<Vmess.Config | Shadowsocks.Config | Vless.Config>;
+  outbounds: Array<Vmess.Config | Shadowsocks.Config | Vless.Config | Trojan.Config>;
 }
 
 export { Shadowsocks, Vmess, Vless, Trojan }
