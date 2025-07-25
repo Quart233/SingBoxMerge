@@ -1,12 +1,12 @@
 import { Outbound, BaseConfig } from "./base.ts"
 
-export interface VlessConfig extends BaseConfig {
+export interface Config extends BaseConfig {
 	server: string;
 	server_port: number;
 }
 
 export class Vless extends Outbound {
-	constructor(config: VlessConfig) {
+	constructor(config: Config) {
 		super(config);
 	}
 }
