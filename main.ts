@@ -1,5 +1,5 @@
 import { createServer } from "node:http"
-import { Provider } from "./providers"
+import * as Provider from "./providers"
 import { Profile } from "./profiles/profile.ts"
 import { IProvider } from "./providers/base.ts";
 

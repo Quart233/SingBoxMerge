@@ -6,4 +6,4 @@ export interface Fields {
   url: string;
 }
 
-export const Provider = { RegExp, Region }
+export { RegExp, Region }
