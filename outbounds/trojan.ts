@@ -1,6 +1,5 @@
 import { Protocol, TLSConfig } from "./index.ts"
 import { Base, BaseConfig } from "./base.ts"
-import { log } from "node:console";
 
 export interface TrojanTLS {
   allowInsecure: string;
@@ -34,8 +33,6 @@ export class Trojan extends Base {
 
       return hashMap;
     }, {})
-
-    log(params)
 
 		const instance = new Trojan({
 			type: Protocol.Trojan,
