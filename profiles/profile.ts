@@ -1,6 +1,7 @@
 import { Base, IOutbound } from "../outbounds/base.ts";
 import { Protocol } from "../outbounds";
 import { IProvider } from "../providers/base.ts";
+import * as Utils from '../utils'
 
 interface Rule {
   outbound: string;
@@ -34,8 +35,8 @@ class Profile {
   }
 
   static async create(config: ProfileConfig) {
-    const res = await fetch(config.template);
-    const template = await res.json();
+    const fileContent = await Utils.loadData(config.template);
+    const template = JSON.parse(fileContent)
     const instance = new Profile(config)
 
     instance.providers = await Promise.all(config.providers);

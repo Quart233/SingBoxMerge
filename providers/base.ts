@@ -3,6 +3,7 @@ import { Buffer } from 'node:buffer';
 import { URI, Protocol, Shadowsocks, Vmess, Trojan, Vless, ProviderRes } from "../outbounds"
 import { BaseConfig, IOutbound, Base } from "../outbounds/base.ts"
 import { Fields } from './index.ts'
+import * as Utils from '../utils'
 
 export interface IProvider extends Fields {
   toConfig: () => BaseConfig[];
@@ -50,8 +51,8 @@ export class Provider implements IProvider {
 
   static async base64(f: Fields) {
     const instance = new Provider(f.name, f.url);
-    const res = await fetch(f.url);
-    const text = await res.text();
+    const text = await Utils.loadData(f.url);
+
     const decoded = Buffer.from(text, "base64").toString("utf8");
     const list = decoded.split('\n').filter(uri => uri).map(uri => uri.trim())
 
@@ -75,8 +76,9 @@ export class Provider implements IProvider {
 
   static async json(f: Fields) {
     const instance = new Provider(f.name, f.url);
-    const res = await fetch(f.url);
-    const json: ProviderRes = await res.json();
+
+    const fileContent = await Utils.loadData(f.url);
+    const json = JSON.parse(fileContent) as ProviderRes;
 
     instance.outbounds = json.outbounds.map(o => {
       switch (o.type) {
