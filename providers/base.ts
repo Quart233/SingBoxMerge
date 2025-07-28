@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer';
 
-import { URI, Protocol, Shadowsocks, Vmess, Trojan, ProviderRes } from "../outbounds"
+import { URI, Protocol, Shadowsocks, Vmess, Trojan, Vless, ProviderRes } from "../outbounds"
 import { BaseConfig, IOutbound, Base } from "../outbounds/base.ts"
 import { Fields } from './index.ts'
 
@@ -80,11 +80,11 @@ export class Provider implements IProvider {
 
     instance.outbounds = json.outbounds.map(o => {
       switch (o.type) {
-        case URI.Shadowsocks:
+        case Protocol.Shadowsocks:
           return new Shadowsocks(o);
-        case URI.Vmess:
+        case Protocol.Vmess:
           return new Vmess(o);
-        case URI.Vless:
+        case Protocol.Vless:
           return new Vless(o);
       }
     }).filter(o => o != undefined)
