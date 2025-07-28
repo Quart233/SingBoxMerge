@@ -1,4 +1,3 @@
-import { createServer } from "node:http"
 import * as Provider from "./providers"
 import { Profile } from "./profiles/profile.ts"
 import { IProvider } from "./providers/base.ts";
@@ -6,11 +5,11 @@ import { IProvider } from "./providers/base.ts";
 const providers: Promise<IProvider>[] = [
   Provider.RegExp.base64({
     name: "Provider Name",
-    url: "Subscription URL",
+    url: "Support http:// or file://",
   }),
   Provider.Region.base64({
     name: "Provider Name",
-    url: "Subscription URL",
+    url: "Support http:// or file://",
   })
 ]
 
@@ -19,19 +18,21 @@ const internal = [
   { type: "block", tag: "block" },
 ];
 
-const server = createServer(async (req, client) => {
+const port = 3000;
+
+Deno.serve({ port }, async (req, client) => {
 
   const profile = await Profile.create({
-    template: "Template URL",
+    template: "Support http:// or file://",
     internalOutbounds: internal,
     providers
   });
 
-  client.writeHead(200, { "Content-Type": "application/json" });
-  client.end(JSON.stringify(profile.generateConfig(), null, 2));
-});
-
-const PORT = 3000;
-server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
+  const body = JSON.stringify(profile.generateConfig(), null, 2);
+  return new Response(body, {
+    status: 200,
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+    },
+  });
 });
