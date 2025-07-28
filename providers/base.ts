@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer';
 
 import { URI, Protocol, Shadowsocks, Vmess, Trojan, ProviderRes } from "../outbounds"
-import { BaseConfig, IOutbound, Outbound } from "../outbounds/base.ts"
+import { BaseConfig, IOutbound, Base } from "../outbounds/base.ts"
 import { Fields } from './index.ts'
 
 export interface IProvider extends Fields {
@@ -38,7 +38,7 @@ export class Provider implements IProvider {
     }, {})
 
     return Object.keys(countries).map(flag => {
-      const o = new Outbound({ tag: `${this.name} ${flag}`, type: Protocol.Selector })
+      const o = new Base({ tag: `${this.name} ${flag}`, type: Protocol.Selector })
       o.outbounds = countries[flag];
       return o;
     })
@@ -66,7 +66,7 @@ export class Provider implements IProvider {
         case URI.Shadowsocks:
           return Shadowsocks.decode(uri)
         default:
-          return new Outbound({ tag: "Empty", type: Protocol.Selector })
+          return new Base({ tag: "Empty", type: Protocol.Selector })
       }
     })
 

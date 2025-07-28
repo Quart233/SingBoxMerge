@@ -1,4 +1,4 @@
-import { Outbound, IOutbound } from "../outbounds/base.ts";
+import { Base, IOutbound } from "../outbounds/base.ts";
 import { Protocol } from "../outbounds";
 import { IProvider } from "../providers/base.ts";
 
@@ -55,22 +55,22 @@ class Profile {
   }
 
   // 生成规则对应的 Outbound 对象
-  public generateRuleOutbounds(countries: IOutbound[]): Outbound[] {
+  public generateRuleOutbounds(countries: IOutbound[]): Base[] {
     return this.rules
                .filter(r => r.outbound)
                .filter(r => !this.internalOutbounds.map(o => o.tag).includes(r.outbound))
-               .map(rule => new Outbound({ tag: rule.outbound, type: Protocol.Selector }, countries));
+               .map(rule => new Base({ tag: rule.outbound, type: Protocol.Selector }, countries));
   }
 
   // 生成代理选择器 Outbound 对象
-  public generateProxyOutbound(countries: IOutbound[]): Outbound {
-    return new Outbound({ tag: "proxy", type: Protocol.Selector }, countries);
+  public generateProxyOutbound(countries: IOutbound[]): Base {
+    return new Base({ tag: "proxy", type: Protocol.Selector }, countries);
   }
 
   // 生成延迟测试 Outbound 对象
-  public generateUrlTestOutbounds(): Outbound[] {
+  public generateUrlTestOutbounds(): Base[] {
     return this.providers.map(profile =>
-      new Outbound({ tag: profile.name, type: Protocol.URLTest }, profile.outbounds)
+      new Base({ tag: profile.name, type: Protocol.URLTest }, profile.outbounds)
     );
   }
 

@@ -1,5 +1,5 @@
 import { Protocol, TLSConfig } from "./index.ts"
-import { Outbound, BaseConfig } from "./base.ts"
+import { Base, BaseConfig } from "./base.ts"
 import { log } from "node:console";
 
 export interface TrojanTLS {
@@ -17,7 +17,7 @@ export interface Config extends BaseConfig {
   tls: Partial<TLSConfig>
 }
 
-export class Trojan extends Outbound {
+export class Trojan extends Base {
 	constructor(config: Config) {
 		super(config);
 	}

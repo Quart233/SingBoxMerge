@@ -10,7 +10,7 @@ export interface IOutbound {
   config: BaseConfig;
 }
 
-export class Outbound implements IOutbound {
+export class Base implements IOutbound {
   config: BaseConfig;
   outbounds: IOutbound[];
 

@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer';
 import { Protocol } from "./index.ts"
-import { Outbound, BaseConfig } from "./base.ts"
+import { Base, BaseConfig } from "./base.ts"
 
 export interface ShadowsocksConfig extends BaseConfig {}
 
@@ -11,7 +11,7 @@ export interface Config extends BaseConfig {
   password: string;
 }
 
-export class Shadowsocks extends Outbound {
+export class Shadowsocks extends Base {
   constructor(config: Config) {
     super(config);
   }

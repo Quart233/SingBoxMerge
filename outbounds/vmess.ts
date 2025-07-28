@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer';
 import { Protocol } from "./index.ts"
-import { Outbound, BaseConfig } from "./base.ts"
+import { Base, BaseConfig } from "./base.ts"
 
 export interface Config extends BaseConfig {
 	tag: string;
@@ -21,7 +21,7 @@ export interface VmessConfig {
 	port: number;
 }
 
-export class Vmess extends Outbound {
+export class Vmess extends Base {
 	constructor(config: Config) {
 		config.transport = {}
 		super(config);
