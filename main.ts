@@ -5,6 +5,7 @@ import { parseArgs } from "jsr:@std/cli/parse-args";
 
 const defaultTemplate = "Support http:// or file://";
 const defaultPort = 3000;
+const defaultHost = "0.0.0.0";
 
 const providers: Promise<IProvider>[] = [
   Provider.RegExp.base64({
@@ -24,9 +25,13 @@ const internal = [
 
 const parsedArgs = parseArgs(Deno.args, {
   boolean: ["help"],
-  string: ["port", "template"],
-  alias: { h: "help", p: "port", t: "template" },
-  default: { port: defaultPort.toString(), template: defaultTemplate },
+  string: ["port", "host", "template"],
+  alias: { p: "port", h: "host", t: "template" },
+  default: {
+     port: defaultPort.toString(),
+     host: defaultHost.toString(),
+     template: defaultTemplate
+  },
 });
 
 if (parsedArgs.help) {
@@ -38,6 +43,7 @@ Commands:
 
 Options:
   -p, --port <port>        Port to listen on (default: ${defaultPort}) (for server)
+  -l, --listen <host>      Host to listen on (default: ${defaultHost}) (for server)
   -t, --template <url>     Template URL (default: ${defaultTemplate})
   -h, --help               Show this help message
 `);
@@ -48,6 +54,7 @@ const command = (parsedArgs._[0] as string) || "";
 
 if (command === "server") {
   const port = Number(parsedArgs.port) || defaultPort;
+  const host = Number(parsedArgs.host) || defaultHost;
   const template = parsedArgs.template;
   const profile = await Profile.create({
     template,
