@@ -26,6 +26,10 @@
   "dns": {
     "servers": [
       {
+        "tag": "localDns",
+        "type": "local"
+      },
+      {
         "tag": "DNSPod",
         "type": "https",
         "server": "120.53.53.53"
@@ -51,14 +55,15 @@
   ],
   "outbounds": [],
   "route": {
-    "default_domain_resolver": "DNSPod",
+    "default_domain_resolver": "localDns",
     "auto_detect_interface": true,
     "final": "proxy",
     "rules": [
       { "ip_cidr": ["127.0.0.1"], "outbound": "direct" },
-      { "rule_set": ["geosite-cn"], "outbound": "direct" },
-      { "domain_suffix": ["coinglass.com", "velo.xyz"], "outbound": "direct" },
+      { "domain_suffix": ["coinglass.com", "velo.xyz"], "outbound": "DoH" },
+      { "domain_suffix": ["nixos.org", "deno.com"], "outbound": "DoH" },
       { "domain_suffix": ["pagead2.googlesyndication.com"], "outbound": "block" },
+      { "rule_set": ["geosite-cn", "geosite-apple"], "outbound": "DoH" },
       { "rule_set": ["geosite-spotify"], "outbound": "Spotify" },
       { "rule_set": [ "geosite-youtube" ], "outbound": "Youtube" },
       { "rule_set": [ "geoip-telegram", "geosite-telegram" ], "outbound": "Telegram" },
@@ -134,6 +139,13 @@
         "type": "remote",
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/twitter.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "geosite-apple",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/apple.srs",
         "download_detour": "proxy"
       },
       {

@@ -19,6 +19,7 @@ const providers: Promise<IProvider>[] = [
 ]
 
 const internal = [
+  { type: "direct", tag: "DoH", domain_resolver: "DNSPod" },
   { type: "direct", tag: "direct" },
   { type: "block", tag: "block" },
 ];
