@@ -23,7 +23,16 @@
       "store_rdrc": true
     }
   },
-  "dns": {},
+  "dns": {
+    "servers": [
+      {
+        "tag": "DNSPod",
+        "type": "https",
+        "server": "120.53.53.53"
+      }
+    ],
+    "strategy": "ipv4_only"
+  },
   "ntp": {
     "enabled": true,
     "server": "time.apple.com",
@@ -42,10 +51,13 @@
   ],
   "outbounds": [],
   "route": {
+    "default_domain_resolver": "DNSPod",
     "auto_detect_interface": true,
     "final": "proxy",
     "rules": [
       { "ip_cidr": ["127.0.0.1"], "outbound": "direct" },
+      { "rule_set": ["geosite-cn"], "outbound": "direct" },
+      { "domain_suffix": ["coinglass.com", "velo.xyz"], "outbound": "direct" },
       { "domain_suffix": ["pagead2.googlesyndication.com"], "outbound": "block" },
       { "rule_set": ["geosite-spotify"], "outbound": "Spotify" },
       { "rule_set": [ "geosite-youtube" ], "outbound": "Youtube" },
@@ -122,6 +134,13 @@
         "type": "remote",
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/twitter.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "geosite-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
         "download_detour": "proxy"
       }
     ]
