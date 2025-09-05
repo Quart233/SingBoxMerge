@@ -66,6 +66,8 @@ export class Provider implements IProvider {
           return Vmess.decode(uri)
         case URI.Shadowsocks:
           return Shadowsocks.decode(uri)
+        case URI.Vless:
+          return Vless.decode(uri)
         default:
           return new Base({ tag: "Empty", type: Protocol.Selector })
       }
