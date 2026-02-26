@@ -1,22 +1,17 @@
-import * as Provider from "./providers"
-import { Profile } from "./profiles/profile.ts"
-import { IProvider } from "./providers/base.ts";
+import * as Provider from "./providers";
+import { Profile } from "./profiles/profile.ts";
 import { parseArgs } from "jsr:@std/cli/parse-args";
 
 const defaultTemplate = "Support http:// or file://";
 const defaultPort = 3000;
 const defaultHost = "0.0.0.0";
 
-const providers: Promise<IProvider>[] = [
-  Provider.RegExp.base64({
-    name: "Provider Name",
-    url: "Support http:// or file://",
+const providers: Promise<Provider.Provider>[] = [
+  Provider.Region.json({
+    name: "auska",
+    url: "file:///home/kuaizi/subscriptions/auska.json",
   }),
-  Provider.Region.base64({
-    name: "Provider Name",
-    url: "Support http:// or file://",
-  })
-]
+];
 
 const internal = [
   { type: "direct", tag: "DoH", domain_resolver: "DNSPod" },
@@ -29,9 +24,9 @@ const parsedArgs = parseArgs(Deno.args, {
   string: ["port", "host", "template"],
   alias: { p: "port", h: "host", t: "template" },
   default: {
-     port: defaultPort.toString(),
-     host: defaultHost.toString(),
-     template: defaultTemplate
+    port: defaultPort.toString(),
+    host: defaultHost.toString(),
+    template: defaultTemplate,
   },
 });
 
@@ -60,7 +55,7 @@ if (command === "server") {
   const profile = await Profile.create({
     template,
     internalOutbounds: internal,
-    providers
+    providers,
   });
   Deno.serve({ port }, (req) => {
     const body = JSON.stringify(profile.generateConfig(), null, 2);
@@ -76,7 +71,7 @@ if (command === "server") {
   const profile = await Profile.create({
     template,
     internalOutbounds: internal,
-    providers
+    providers,
   });
   console.log(JSON.stringify(profile.generateConfig(), null, 2));
 } else {

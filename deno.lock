@@ -1,10 +1,16 @@
 {
-  "version": "5",
+  "version": "4",
   "specifiers": {
+    "jsr:@std/cli@*": "1.0.23",
     "npm:@types/country-list@*": "2.1.4",
     "npm:@types/country-list@^2.1.4": "2.1.4",
     "npm:@types/node@*": "22.5.4",
     "npm:country-list@2.3.0": "2.3.0"
+  },
+  "jsr": {
+    "@std/cli@1.0.23": {
+      "integrity": "bf95b7a9425ba2af1ae5a6359daf58c508f2decf711a76ed2993cd352498ccca"
+    }
   },
   "npm": {
     "@types/country-list@2.1.4": {
