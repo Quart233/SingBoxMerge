@@ -1,5 +1,5 @@
 export async function loadData(url: string): Promise<string> {
-  if (url.startsWith('file://')) {
+  if (url.startsWith("file://")) {
     return await Deno.readTextFile(new URL(url));
   } else {
     const res = await fetch(url);
