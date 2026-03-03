@@ -5,7 +5,7 @@ export interface TrojanTLS {
   allowInsecure: string;
   udp: string;
   peer: string;
-  sni: string; 
+  sni: string;
 }
 
 export interface Config extends BaseConfig {
@@ -21,7 +21,11 @@ export class Trojan extends Base {
 		super(config);
 	}
 
-	static decode(uri: string) {
+  static fromJSON(json: Config): Trojan {
+    return new Trojan(json);
+	}
+
+	static fromURI(uri: string): Trojan {
     const url = new URL(uri);
 
     const params: Partial<TrojanTLS> = url.search.slice(1).split("&").reduce((hashMap: { [key: string]: string }, str) => {
