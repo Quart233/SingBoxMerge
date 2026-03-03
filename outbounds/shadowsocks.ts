@@ -1,8 +1,6 @@
-import { Buffer } from 'node:buffer';
+import { Buffer } from 'node:buffer'
 import { Protocol } from "./index.ts"
 import { Base, BaseConfig } from "./base.ts"
-
-export interface ShadowsocksConfig extends BaseConfig {}
 
 export interface Config extends BaseConfig {
   server: string;
@@ -16,7 +14,7 @@ export class Shadowsocks extends Base {
     super(config);
   }
 
-  static decode(uri: string) {
+  static fromURI(uri: string): Shadowsocks {
     const url = new URL(uri);
     const encrytption = Buffer.from(url.username, "base64").toString("utf8").split(":");
 
@@ -29,5 +27,9 @@ export class Shadowsocks extends Base {
       server_port: Number(url.port)
     })
     return instance;
+  }
+
+  static fromJSON(json: Config): Shadowsocks {
+    return new Shadowsocks(json);
   }
 }
