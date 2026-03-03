@@ -28,7 +28,11 @@ export class Vmess extends Base {
 		this.validate(config)
 	}
 
-	static decode(uri: string) {
+  static fromJSON(json: Config): Vmess {
+    return new Vmess(json);
+	}
+
+	static fromURI(uri: string): Vmess {
 		const base64 = uri.slice(8);
 	  const decoded = Buffer.from(base64, "base64").toString("utf8");
 	  const config: VmessConfig = JSON.parse(decoded);

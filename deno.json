@@ -2,7 +2,7 @@
   "unstable": ["sloppy-imports"],
   "lint": {
     "rules": {
-      "exclude": ["no-sloppy-imports"]
+      "exclude": ["no-sloppy-imports", "no-explicit-any"]
     }
   },
   "imports": {
