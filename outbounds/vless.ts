@@ -18,12 +18,21 @@ interface VlessExtraConfig {
 }
 
 interface Reality {
+  enabled: boolean;
   short_id: string;
   public_key: string;
 }
 
+interface SingBoxUTLS {
+  enabled: boolean;
+  fingerprint: string;
+}
+
 interface SingBoxTLS {
+  enabled: boolean;
   reality: Reality;
+  server_name: string;
+  utls: SingBoxUTLS
 }
 
 export interface Config extends BaseConfig {
@@ -39,7 +48,11 @@ export class Vless extends Base {
     super(config);
   }
 
-  static decode(uri: string) {
+  static fromJSON(json: Config) {
+    return new Vless(json);
+  }
+
+  static fromURI(uri: string) {
     const url = new URL(uri);
 
     const params: Partial<VlessExtraConfig> = url.search
@@ -64,15 +77,15 @@ export class Vless extends Base {
       flow: params.flow,
       tls: {
         enabled: true,
-        server_name: params.sni,
+        server_name: params.sni as string,
         utls: {
           enabled: true,
-          fingerprint: params.fp,
+          fingerprint: params.fp as string,
         },
         reality: {
           enabled: true,
-          short_id: params.sid,
-          public_key: params.pbk,
+          short_id: params.sid as string,
+          public_key: params.pbk as string,
         },
       },
     });
