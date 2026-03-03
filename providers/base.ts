@@ -1,20 +1,16 @@
 import { IOutbound, Base } from "../outbounds/base.ts";
 import { Protocol } from "../outbounds/index.ts";
 
-export class Provider {
+export abstract class Provider {
   name: string;
-  url: string;
   outbounds: IOutbound[];
 
-  constructor(name: string, url: string) {
+  constructor(name: string) {
     this.name = name;
-    this.url = url;
     this.outbounds = [];
   }
 
-  prefix(t: string) {
-    return t;
-  }
+  protected abstract prefix(tag: string): string;
 
   groups() {
     const countries = this.outbounds.reduce(
