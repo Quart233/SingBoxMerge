@@ -1,7 +1,7 @@
 import { Base, IOutbound } from "../outbounds/base.ts";
-import { Protocol } from "../outbounds";
-import { IProvider } from "../providers/provider.ts";
-import * as Utils from "../utils";
+import { Protocol } from "../outbounds/mod.ts";
+import { Provider } from "../providers/mod.ts";
+import { loadData } from "../utils/file.ts";
 
 interface Rule {
   outbound: string;
@@ -11,7 +11,7 @@ interface Rule {
 interface ProfileConfig {
   template: string;
   internalOutbounds: { type: string; tag: string }[];
-  providers: Promise<IProvider>[];
+  providers: Promise<Provider>[];
 }
 
 interface OutboundConfig {
@@ -20,11 +20,11 @@ interface OutboundConfig {
   outbounds?: string[];
 }
 
-class Profile {
+export class Profile {
   private template;
   private rules: Rule[];
   private internalOutbounds: ProfileConfig["internalOutbounds"];
-  private providers: IProvider[];
+  private providers: Provider[];
   private cachedOutbounds: OutboundConfig[] | null = null;
 
   constructor(config: ProfileConfig) {
@@ -35,7 +35,7 @@ class Profile {
   }
 
   static async create(config: ProfileConfig) {
-    const fileContent = await Utils.loadData(config.template);
+    const fileContent = await loadData(config.template);
     const template = JSON.parse(fileContent);
     const instance = new Profile(config);
 
@@ -124,5 +124,3 @@ class Profile {
     this.cachedOutbounds = null;
   }
 }
-
-export { Profile, ProfileConfig };

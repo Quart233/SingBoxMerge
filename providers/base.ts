@@ -1,5 +1,5 @@
 import { IOutbound, Base } from "../outbounds/base.ts";
-import { Protocol } from "../outbounds/index.ts";
+import { Protocol } from "../outbounds/mod.ts";
 
 export abstract class Provider {
   name: string;

@@ -1,7 +1,7 @@
 import { getNames } from "npm:country-list@2.3.0";
 
 import { Provider } from "./base.ts";
-import { Fields } from "./index.ts";
+import { Fields } from "./mod.ts";
 import { loadData } from "../utils/file.ts";
 import { parseBase64, parseJson } from "../utils/parser.ts";
 
@@ -20,7 +20,7 @@ export class Region extends Provider {
   }
 
   static async json(f: Fields) {
-    const instance = new Region(f.name, f.url);
+    const instance = new Region(f.name);
     const json = await loadData(f.url);
     instance.outbounds = parseJson(json);
     return instance;

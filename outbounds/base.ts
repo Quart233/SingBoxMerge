@@ -1,4 +1,4 @@
-import { Protocol } from "./index.ts";
+import { Protocol } from "./mod.ts";
 
 export interface BaseConfig {
   type: Protocol;

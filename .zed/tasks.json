@@ -1,0 +1,31 @@
+[
+  {
+    "label": "Deno: run current file",
+    "command": "deno",
+    "args": ["run", "--allow-all", "$ZED_FILE"],
+    "use_new_terminal": true,
+    "allow_concurrent_runs": true,
+    "reveal": "always"
+  },
+  {
+    "label": "Deno: run main.ts",
+    "command": "deno",
+    "args": ["run", "-A", "main.ts"],
+    "use_new_terminal": true,
+    "reveal": "always"
+  },
+  {
+    "label": "Deno: test",
+    "command": "deno",
+    "args": ["test", "--allow-all"],
+    "tags": ["test"],
+    "use_new_terminal": true
+  },
+  {
+    "label": "Deno: info",
+    "command": "deno",
+    "args": ["info", "$ZED_FILE"],
+    "tags": ["info"],
+    "use_new_terminal": true
+  }
+]

@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { Protocol } from "./index.ts"
+import { Protocol } from "./mod.ts"
 import { Base, BaseConfig } from "./base.ts"
 
 export interface Config extends BaseConfig {

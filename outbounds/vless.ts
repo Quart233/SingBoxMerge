@@ -1,5 +1,5 @@
 import { Base, BaseConfig } from "./base.ts";
-import { Protocol } from "./index.ts";
+import { Protocol } from "./mod.ts";
 
 interface VlessExtraConfig {
   type: string;

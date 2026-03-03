@@ -1,5 +1,5 @@
 import { Provider } from "./base.ts";
-import { Fields } from "./index.ts";
+import { Fields } from "./mod.ts";
 
 import { parseJson, parseBase64 } from "../utils/parser.ts";
 import { loadData } from "../utils/file.ts";

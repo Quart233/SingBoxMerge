@@ -8,7 +8,7 @@ import {
   Trojan,
   Vless,
   ProviderRes
-} from "../outbounds/index.ts";
+} from "../outbounds/mod.ts";
 import { IOutbound } from "../outbounds/base.ts";
 
 import type { Config as ShadowsocksConfig } from "../outbounds/shadowsocks.ts"

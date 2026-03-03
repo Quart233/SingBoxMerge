@@ -1,4 +1,4 @@
-import * as Provider from "./providers";
+import * as Provider from "./providers/mod.ts";
 import { Profile } from "./profiles/profile.ts";
 import { parseArgs } from "jsr:@std/cli/parse-args";
 
@@ -9,7 +9,7 @@ const defaultHost = "0.0.0.0";
 const providers: Promise<Provider.Provider>[] = [
   Provider.Region.json({
     name: "auska",
-    url: "file:///home/kuaizi/subscriptions/auska.json",
+    url: "file:///home/lin/subscriptions/auska.json",
   }),
 ];
 

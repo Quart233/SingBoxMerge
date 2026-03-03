@@ -1,4 +1,4 @@
-import { Protocol, TLSConfig } from "./index.ts"
+import { Protocol, TLSConfig } from "./mod.ts"
 import { Base, BaseConfig } from "./base.ts"
 
 export interface TrojanTLS {

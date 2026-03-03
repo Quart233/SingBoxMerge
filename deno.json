@@ -1,8 +1,7 @@
 {
-  "unstable": ["sloppy-imports"],
   "lint": {
     "rules": {
-      "exclude": ["no-sloppy-imports", "no-explicit-any"]
+      "exclude": ["no-explicit-any"]
     }
   },
   "imports": {
