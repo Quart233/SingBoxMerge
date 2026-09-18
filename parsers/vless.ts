@@ -1,5 +1,4 @@
-import { Base, BaseConfig } from "./base.ts";
-import { Protocol } from "./mod.ts";
+import { Base, BaseConfig, Protocol } from "../outbounds/mod.ts";
 
 interface VlessExtraConfig {
   type: string;
@@ -32,7 +31,7 @@ interface SingBoxTLS {
   enabled: boolean;
   reality: Reality;
   server_name: string;
-  utls: SingBoxUTLS
+  utls: SingBoxUTLS;
 }
 
 export interface Config extends BaseConfig {

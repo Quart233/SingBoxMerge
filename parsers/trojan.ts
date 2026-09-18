@@ -1,0 +1,58 @@
+import { Base, BaseConfig, Protocol, TLSConfig } from "../outbounds/mod.ts";
+
+export interface TrojanTLS {
+  allowInsecure: string;
+  udp: string;
+  peer: string;
+  sni: string;
+}
+
+export interface Config extends BaseConfig {
+  server: string;
+  server_port: number;
+  password: string;
+  network: string;
+  tls: Partial<TLSConfig>;
+}
+
+export class Trojan extends Base {
+  constructor(config: Config) {
+    super(config);
+  }
+
+  static fromJSON(json: Config): Trojan {
+    return new Trojan(json);
+  }
+
+  static fromURI(uri: string): Trojan {
+    const url = new URL(uri);
+
+    const params: Partial<TrojanTLS> = url.search.slice(1).split("&").reduce(
+      (hashMap: { [key: string]: string }, str) => {
+        const kv = str.split("=");
+        const k = kv[0];
+        const v = kv[1];
+
+        hashMap[k] = v;
+
+        return hashMap;
+      },
+      {},
+    );
+
+    const instance = new Trojan({
+      type: Protocol.Trojan,
+      tag: decodeURIComponent(url.hash.slice(1)),
+      password: url.username,
+      server: url.hostname,
+      server_port: Number(url.port),
+      network: "tcp",
+      tls: {
+        enabled: true,
+        insecure: params.allowInsecure === "1",
+        server_name: params.sni,
+      },
+    });
+    return instance;
+  }
+}

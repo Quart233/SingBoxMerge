@@ -1,28 +1,9 @@
-import type { Config as ShadowsocksConfig } from "./shadowsocks.ts"
-import type { Config as VmessConfig } from "./vmess.ts"
-import type { Config as VlessConfig }  from "./vless.ts"
-import type { Config as TrojanConfig } from "./trojan.ts"
-
-export { Shadowsocks } from "./shadowsocks.ts"
-export { Vmess } from "./vmess.ts"
-export { Vless }  from "./vless.ts"
-export { Trojan } from "./trojan.ts"
-
-export enum Protocol {
-  Vmess = "vmess",
-  Vless = "vless",
-  Trojan = "trojan",
-  Selector = "selector",
-  URLTest = "urltest",
-  Shadowsocks = "shadowsocks"
-}
-
-export enum URI {
-  Vmess = "vmess",
-  Vless = "vless",
-  Trojan = "trojan",
-  Shadowsocks = "ss"
-}
+export {
+  Base,
+  Protocol,
+  type BaseConfig,
+  type IOutbound,
+} from "./base.ts";
 
 export interface TLSConfig {
   enabled: boolean;
@@ -54,8 +35,4 @@ export interface TLSConfig {
     public_key: string;
     short_id: string;
   };
-}
-
-export interface ProviderRes {
-  outbounds: Array<ShadowsocksConfig | VmessConfig | VlessConfig | TrojanConfig>;
 }

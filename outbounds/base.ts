@@ -1,4 +1,11 @@
-import { Protocol } from "./mod.ts";
+export enum Protocol {
+  Vmess = "vmess",
+  Vless = "vless",
+  Trojan = "trojan",
+  Selector = "selector",
+  URLTest = "urltest",
+  Shadowsocks = "shadowsocks",
+}
 
 export interface BaseConfig {
   type: Protocol;

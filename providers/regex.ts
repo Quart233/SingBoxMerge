@@ -1,7 +1,7 @@
 import { Provider } from "./base.ts";
 import { Fields } from "./mod.ts";
 
-import { parseJson, parseBase64 } from "../utils/parser.ts";
+import { parseJson, parseBase64 } from "../parsers/mod.ts";
 import { loadData } from "../utils/file.ts";
 
 export class RegExp extends Provider {

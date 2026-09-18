@@ -3,7 +3,7 @@ import { getNames } from "npm:country-list@2.3.0";
 import { Provider } from "./base.ts";
 import { Fields } from "./mod.ts";
 import { loadData } from "../utils/file.ts";
-import { parseBase64, parseJson } from "../utils/parser.ts";
+import { parseBase64, parseJson } from "../parsers/mod.ts";
 
 export class Region extends Provider {
   override prefix(t: string) {
