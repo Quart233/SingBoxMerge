@@ -4,6 +4,9 @@
       "exclude": ["no-explicit-any"]
     }
   },
+  "tasks": {
+    "test": "deno test --allow-read --allow-net --allow-write --allow-run tests/"
+  },
   "imports": {
     "@types/country-list": "npm:@types/country-list@^2.1.4",
     "country-list": "npm:country-list@2.3.0"

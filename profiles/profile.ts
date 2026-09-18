@@ -4,7 +4,7 @@ import { Provider } from "../providers/mod.ts";
 import { loadData } from "../utils/file.ts";
 
 interface Rule {
-  outbound: string;
+  outbound?: string;
   [key: string]: any;
 }
 
@@ -20,30 +20,51 @@ interface OutboundConfig {
   outbounds?: string[];
 }
 
+interface Template {
+  route: { rules: Rule[]; [key: string]: any };
+  [key: string]: any;
+}
+
 export class Profile {
-  private template;
+  private template: Template;
   private rules: Rule[];
   private internalOutbounds: ProfileConfig["internalOutbounds"];
   private providers: Provider[];
   private cachedOutbounds: OutboundConfig[] | null = null;
 
-  constructor(config: ProfileConfig) {
-    this.rules = [];
-    this.providers = [];
-    this.internalOutbounds = config.internalOutbounds;
+  private constructor(
+    template: Template,
+    internalOutbounds: ProfileConfig["internalOutbounds"],
+    providers: Provider[],
+  ) {
+    this.template = template;
+    this.internalOutbounds = internalOutbounds;
+    this.providers = providers;
+    this.rules = template.route.rules ?? [];
     this.validateRules();
+  }
+
+  static fromResolved(
+    template: Template,
+    internalOutbounds: ProfileConfig["internalOutbounds"],
+    providers: Provider[],
+  ) {
+    if (!template?.route) {
+      throw new Error("Invalid template: missing route");
+    }
+
+    return new Profile(template, internalOutbounds, providers);
   }
 
   static async create(config: ProfileConfig) {
     const fileContent = await loadData(config.template);
-    const template = JSON.parse(fileContent);
-    const instance = new Profile(config);
-
-    instance.providers = await Promise.all(config.providers);
-    instance.rules = template.route.rules;
-    instance.template = template;
-
-    return instance;
+    const template = JSON.parse(fileContent) as Template;
+    const providers = await Promise.all(config.providers);
+    return Profile.fromResolved(
+      template,
+      config.internalOutbounds,
+      providers,
+    );
   }
 
   // 验证规则有效性
@@ -58,7 +79,7 @@ export class Profile {
   // 生成规则对应的 Outbound 对象
   public generateRuleOutbounds(countries: IOutbound[]): Base[] {
     return this.rules
-      .filter((r) => r.outbound)
+      .filter((r): r is Rule & { outbound: string } => Boolean(r.outbound))
       .filter(
         (r) => !this.internalOutbounds.map((o) => o.tag).includes(r.outbound),
       )

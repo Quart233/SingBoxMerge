@@ -1,1 +1,1 @@
-deno --watch --allow-net main.ts
+deno --watch --allow-net --allow-read main.ts server
